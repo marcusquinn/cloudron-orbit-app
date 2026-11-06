@@ -56,12 +56,19 @@ orbit_load_overrides() {
 	return 0
 }
 
-# Exports the server configuration. With "keep-restore-settings", the
-# ORBIT_BACKUP_S3_* variables an operator exports for `orbit backup` on a
-# replacement server (upstream docs/operations.md) are kept; every other
-# ORBIT_* variable already in the environment is dropped.
+# Exports the server configuration. Mode "server" drops every ORBIT_*
+# variable already in the environment. Mode "keep-restore-settings" keeps
+# the ORBIT_BACKUP_S3_* variables an operator exports for `orbit backup` on
+# a replacement server (upstream docs/operations.md) and drops the rest.
 orbit_export_env() {
-	local mode="${1:-}"
+	local mode="$1"
+	case "$mode" in
+		server | keep-restore-settings) ;;
+		*)
+			printf 'orbit_export_env: unknown mode: %s\n' "$mode" >&2
+			return 1
+			;;
+	esac
 	local name
 	for name in $(compgen -e); do
 		case "$name" in

@@ -70,7 +70,7 @@ mkdir -p \
 
 ensure_app_key "$ORBIT_KEY_FILE"
 seed_overrides_file "$ORBIT_OVERRIDES_FILE"
-orbit_export_env
+orbit_export_env server
 
 proxy_address="$(detect_cloudron_proxy || true)"
 if [[ ! "$proxy_address" =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]]; then
