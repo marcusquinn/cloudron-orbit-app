@@ -3,9 +3,9 @@
 # SPDX-FileCopyrightText: 2026 Marcus Quinn
 #
 # The Orbit CLI with this app's configuration, for the Cloudron Web Terminal.
-# It runs as the cloudron user, like the server. On SQLite, stop the server
-# first for root, recovery-link, setup-token and backup restore:
-#   supervisorctl stop orbit && orbit setup-token rotate; supervisorctl start orbit
+# It runs as the cloudron user, like the server. Commands that need the SQLite
+# database to themselves (root, recovery-link, setup-token, backup restore)
+# fail while the server runs; use orbit-offline for those.
 set -euo pipefail
 
 # shellcheck source=lib/orbit-env.sh

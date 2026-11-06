@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Marcus Quinn
+#
+# Prints a fresh first-run setup link, replacing the one in the app's log.
+# Orbit stops for a few seconds. Treat the link as a password: whoever opens
+# it first creates the root account.
+set -euo pipefail
+
+if orbit-offline setup-token rotate; then
+	exit 0
+fi
+printf '\nOrbit is probably set up already: sign in instead. For a one-time\n' >&2
+printf 'recovery link to an account, run: orbit-offline recovery-link --email EMAIL\n' >&2
+exit 1

@@ -1,0 +1,39 @@
+{
+  "id": "com.marcusquinn.cloudron.orbit",
+  "title": "Orbit",
+  "author": "Marcus Quinn <marcus@marcusquinn.com>",
+  "description": "file://DESCRIPTION.md",
+  "tagline": "Self-hosted tasks, docs and team chat in one workspace",
+  "version": "0.1.0",
+  "upstreamVersion": "0.2.1",
+  "healthCheckPath": "/health/ready",
+  "httpPort": 8000,
+  "manifestVersion": 2,
+  "website": "https://orbit.so",
+  "contactEmail": "marcus@marcusquinn.com",
+  "icon": "file://logo.png",
+  "documentationUrl": "https://github.com/marcusquinn/cloudron-orbit-app/blob/main/README.md",
+  "upstreamLicense": {
+    "name": "Apache-2.0",
+    "url": "https://github.com/coollabsio/orbit/blob/fe9dce7b155169cd02461d939dd0d6d8f9e50283/LICENSE"
+  },
+  "minBoxVersion": "10.0.0",
+  "memoryLimit": 1073741824,
+  "addons": {
+    "localstorage": {
+      "sqlite": {
+        "paths": ["/app/data/database/orbit.sqlite"]
+      }
+    },
+    "sendmail": {
+      "supportsDisplayName": true
+    }
+  },
+  "tags": ["productivity", "project-management", "wiki", "chat", "collaboration"],
+  "postInstallMessage": "file://POSTINSTALL.md",
+  "configurePath": "/admin",
+  "changelog": "file://CHANGELOG",
+  "packagerName": "Marcus Quinn",
+  "packagerUrl": "https://github.com/marcusquinn/cloudron-orbit-app",
+  "packageUrl": "https://github.com/marcusquinn/cloudron-orbit-app"
+}
