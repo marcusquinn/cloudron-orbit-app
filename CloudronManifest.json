@@ -12,6 +12,14 @@
   "website": "https://orbit.so",
   "contactEmail": "marcus@marcusquinn.com",
   "icon": "file://logo.png",
+  "iconUrl": "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/logo.png",
+  "mediaLinks": [
+    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-1-tasks.png",
+    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-2-docs.png",
+    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-3-chat.png",
+    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-4-mcp.png",
+    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/hero.png"
+  ],
   "documentationUrl": "https://github.com/marcusquinn/cloudron-orbit-app/blob/main/README.md",
   "upstreamLicense": {
     "name": "Apache-2.0",
