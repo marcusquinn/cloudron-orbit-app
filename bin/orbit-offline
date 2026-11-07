@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Marcus Quinn
+#
+# Runs an Orbit CLI command that needs the SQLite database to itself. It stops
+# the Orbit server for a few seconds, runs `orbit <arguments>`, then starts the
+# server again, also when the command fails. For the Cloudron Web Terminal:
+#   orbit-offline setup-token rotate               fresh first-run setup link
+#   orbit-offline recovery-link --email EMAIL      one-time account recovery link
+#   orbit-offline root show                        the root user's email
+set -euo pipefail
+
+start_orbit() {
+	if ! supervisorctl start orbit >/dev/null; then
+		printf 'Orbit did not start again; run: supervisorctl start orbit\n' >&2
+	fi
+	return 0
+}
+
+if [[ $# -eq 0 ]]; then
+	printf 'Usage: orbit-offline <orbit command> [arguments]\n' >&2
+	exit 2
+fi
+
+supervisorctl stop orbit >/dev/null
+trap start_orbit EXIT
+orbit "$@"

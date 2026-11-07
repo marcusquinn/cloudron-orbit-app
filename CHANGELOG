@@ -1,0 +1,6 @@
+[0.1.0]
+* Initial Cloudron package for Orbit 0.2.1 (upstream commit fe9dce7), built from upstream's release image pinned by digest.
+* SQLite database, attachments and the app key in /app/data, with Cloudron's consistent SQLite backups.
+* Outgoing mail through the Cloudron relay: `orbit-mail-settings` prints the values for Admin → Email.
+* `orbit-setup-link` prints a fresh first-run setup link; `orbit-offline` runs the upstream CLI commands that need the server stopped.
+* Orbit's Mail section is still a preview with mock data upstream.
