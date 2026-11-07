@@ -54,10 +54,19 @@ runs when the head commit message contains the marker anywhere, so describe it
 in prose in commit messages, PR descriptions and squash bodies; a merge whose
 message quotes it would skip the run that publishes or repairs the release.
 
-Verify provenance with
-`gh attestation verify oci://<image@digest> --repo marcusquinn/cloudron-orbit-app`
-and, for a downloaded catalog,
-`gh attestation verify CloudronVersions.json --repo marcusquinn/cloudron-orbit-app`.
+The provenance is signed by the reusable aidevops workflow, not by a workflow in
+this repository, so `gh attestation verify` needs `--signer-workflow`; with
+`--repo` alone it fails with `verifying with issuer "sigstore.dev"`. Verify an
+image digest, or a downloaded catalog in place of `oci://<image@digest>`, with:
+
+```bash
+gh attestation verify oci://<image@digest> --repo marcusquinn/cloudron-orbit-app \
+  --signer-workflow marcusquinn/aidevops/.github/workflows/cloudron-catalog-publish-reusable.yml \
+  --source-ref refs/heads/main
+```
+
+Add `--source-digest <merge commit>` and `--signer-digest <aidevops commit
+pinned in .github/workflows/cloudron-catalog-publish.yml>` to pin both.
 
 ## Store listing
 
@@ -73,7 +82,7 @@ a release, check that each URL returns HTTPS 200 with an image content type.
 To list the app on [Community Apps](https://ca.cloudron.io), sign in, add the
 catalog URL to your apps, and check the imported title, icon, screenshots,
 changelog and install link. Announce new packages in the forum's
-[Community Apps](https://forum.cloudron.io/category/220/community-apps)
+[Community Packages](https://forum.cloudron.io/category/220/community-packages)
 category. Orbit's Mail section is not email support yet; say so in the
 announcement.
 

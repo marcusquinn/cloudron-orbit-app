@@ -8,8 +8,9 @@ chat in one workspace, with an MCP server for AI clients.
 |---|---|
 | Upstream | Orbit 0.2.1, commit `fe9dce7`, Apache-2.0 |
 | Package | 0.1.0, MIT |
-| Status | Testing: built and checked locally, not yet qualified on a Cloudron server |
+| Status | Testing release, checked on one Cloudron 10.1.6 server ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
 | Requires | Cloudron 10.0.0 or later, x86-64 |
+| Install | `cloudron install --versions-url https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/main/CloudronVersions.json` |
 
 Orbit is early-stage software. Its Mail section is a preview with mock data
 upstream ("Coming soon" in the sidebar) and is not a working mail client yet.

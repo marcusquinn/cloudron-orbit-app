@@ -204,6 +204,14 @@ user and an invited member.
 - The `data:` font content security policy report appeared on every page,
   not only **Admin → Email**.
 
+Published 0.1.0: after the catalog workflow ran, the same server installed it
+with `cloudron install --versions-url` from the catalog URL. It pulled
+`ghcr.io/marcusquinn/cloudron-orbit-app@sha256:2e3de9a6…6cb7a0` (anonymous
+pull works), created the app key, printed the setup link and answered 200 on
+`/health/ready` and `/`. The digest's provenance verified against the reusable
+workflow at the pinned aidevops commit and source commit `6f94e7f`. The app was
+then uninstalled.
+
 Not checked: arm64, memory under load from several people, an update across
 Orbit versions on Cloudron (0.2.0 to 0.2.1 was checked only locally), and an
 MCP client app such as Claude Code. The checklist is in
