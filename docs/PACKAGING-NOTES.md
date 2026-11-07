@@ -41,6 +41,17 @@ trusts only `127.0.0.1/32`, and nginx in the container listens on 8000
   (`ORBIT_UPLOAD_MAX_*`, 25 MiB per file by default), and keeps WebSockets open
   for up to an hour.
 
+Orbit refuses an upload that is too large or not allowed as soon as it knows,
+answers and closes the connection without reading the rest of the body. nginx,
+still sending the body, then gets a broken pipe and answers 502 instead of
+passing Orbit's answer on (log: `writev() failed (32: Broken pipe) while
+sending request to upstream`). curl straight to Orbit gets the answer because
+it stops sending when the answer arrives. On Cloudron a 30 MiB chat upload got
+502; with `proxy_request_buffering on` it got Orbit's 413 in two of three tries,
+so buffering does not fix it and stays off. Nothing is stored either way, and
+Orbit's chat composer shows only "Upload failed." for any refused upload, so
+people see the same message.
+
 The manifest's health check, `/health/ready`, answers 200 without signing in
 once Orbit reports all its readiness checks ready.
 
@@ -76,7 +87,8 @@ are stored encrypted in the database; it has no environment configuration
 2026-11-06). So the package cannot configure Cloudron's mail relay itself.
 `orbit-mail-settings` prints the relay's host, port, user, password and sender
 for that page. A clone, or a change to the app's mail settings in Cloudron,
-gets new relay credentials, so they must be entered again.
+gets new relay credentials, so they must be entered again. Until then a clone
+keeps sending with the original app's relay user and sender address.
 
 Orbit's **Mail** section is not email support. In 0.2.1 the sidebar shows it as
 "Coming soon" and upstream's README describes it as in progress with mock data.
@@ -145,7 +157,54 @@ and a 404 for `view-preferences`. Other console errors on some settings pages,
 besides the test proxy's untrusted certificate, were not investigated. Pages
 rendered and worked.
 
-Not yet checked: an install on a Cloudron server, Cloudron backup and restore,
-clone, mail through the Cloudron relay, WebSockets and client addresses through
-Cloudron's proxy, connecting an MCP client, and arm64. The checklist is in
-[PUBLISHING.md](PUBLISHING.md); record the results here.
+## Cloudron verification
+
+On 2026-11-07 the package from commit `77821a1` was installed as a disposable
+app on a Cloudron 10.1.6 server (x86-64, Docker 29.6.2) with Cloudron CLI 9.0.4,
+built on the server (image ID `sha256:00c2e2cc…0cf229f` after the update test;
+Orbit binary from the upstream digest above). Two accounts were used: the root
+user and an invited member.
+
+- TLS was valid over HTTP/2 and `/health/ready` answered 200. On first install
+  one health check got 502 while Orbit was still starting.
+- `orbit-setup-link` gave a link that created the root account; a workspace
+  and project followed.
+- Client addresses: Orbit's login rate-limit record and Cloudron's nginx log
+  both showed the browser's public address.
+- WebSockets: a chat message from one user appeared live for the other after
+  87 ms, after 330 seconds idle (784 ms) and in reverse (785 ms); the sockets
+  stayed open. In a doc, each user's typing appeared for the other within
+  35 ms over the collaboration socket and was saved after a reload.
+- Uploads: a 20 MiB chat file attached (201). A 30 MiB file was refused with
+  502, as described under production mode above.
+- Mail through the Cloudron relay with `orbit-mail-settings` values: test
+  email, an invitation (accepted by the second user) and a password reset link
+  were delivered to a Cloudron mailbox.
+- MCP over OAuth, with a scripted public client on a loopback callback:
+  discovery, 401 with resource metadata, dynamic registration, consent for one
+  workspace and all projects, S256 PKCE code exchange (15-minute access token
+  and a refresh token), `initialize` (orbit 0.2.1, protocol 2025-11-25),
+  `tools/list` and `list_projects` worked; after the refresh token was revoked
+  the access token got 401.
+- Restart: the browser session, a doc and the SMTP settings survived; a test
+  email was delivered.
+- Backup and clone: after a Cloudron backup, a clone on a new location was
+  healthy, accepted the password set before the backup, had the doc, and
+  decrypted the stored SMTP password (its test email was delivered). After its
+  own `orbit-mail-settings` values were entered, its test email was delivered
+  from its own address.
+- Update: `cloudron update` rebuilt the image, took Cloudron's pre-update
+  backup, stopped Orbit and nginx cleanly and started healthy; the session,
+  doc and SMTP settings were intact. The Orbit version did not change, so no
+  migration ran. `/app/data/backups/pre-migration` holds the 20 KB snapshot
+  Orbit made before migration 0066 on first start.
+- Memory at idle: 30–31 MiB per container (`docker stats`) and 54 MiB resident
+  for Orbit, against the 1 GiB limit. `/app/data` was 22 MiB, mostly the test
+  upload.
+- The `data:` font content security policy report appeared on every page,
+  not only **Admin → Email**.
+
+Not checked: arm64, memory under load from several people, an update across
+Orbit versions on Cloudron (0.2.0 to 0.2.1 was checked only locally), and an
+MCP client app such as Claude Code. The checklist is in
+[PUBLISHING.md](PUBLISHING.md); record later results here.

@@ -90,8 +90,9 @@ a checkout builds the image on the server, so no registry is needed;
   log, it is the browser's, not the proxy's.
 - WebSockets through Cloudron's proxy: a chat message and a doc edit appear
   live in a second browser, and stay connected for some minutes.
-- Uploads: a file under 25 MiB attaches; a larger one is refused with Orbit's
-  message.
+- Uploads: a file under 25 MiB attaches; a larger one is refused and nothing
+  is stored. Chat shows "Upload failed."; the response is 413 or 502 (see
+  [PACKAGING-NOTES.md](PACKAGING-NOTES.md)).
 - Mail through the Cloudron relay with `orbit-mail-settings`: test email,
   an emailed invitation and a password reset.
 - An MCP client (for example Claude Code) connects over OAuth.

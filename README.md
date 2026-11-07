@@ -70,7 +70,8 @@ Cloudron backups.
 change. Only these settings are accepted; the package sets the rest and skips
 others with a warning in the log:
 
-- `ORBIT_UPLOAD_MAX_FILE_BYTES`: largest upload, default 25 MiB.
+- `ORBIT_UPLOAD_MAX_FILE_BYTES`: largest upload, default 25 MiB. Chat shows
+  only "Upload failed." for a larger file.
 - `ORBIT_UPLOAD_MAX_REQUEST_BYTES`: largest upload request.
 - `ORBIT_JOBS_CONCURRENCY`: background jobs at once, default 4.
 - `ORBIT_RATE_LIMIT_*`: rate limits, see upstream
