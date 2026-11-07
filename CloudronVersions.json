@@ -1,4 +1,66 @@
 {
     "stable": true,
-    "versions": {}
+    "versions": {
+        "0.1.0": {
+            "manifest": {
+                "id": "com.marcusquinn.cloudron.orbit",
+                "title": "Orbit",
+                "author": "Marcus Quinn <marcus@marcusquinn.com>",
+                "description": "Orbit is a self-hosted workspace for teams: tasks, docs and chat in one app on\nyour own server. AI clients connect over MCP and work with the whole workspace\nwithout your data leaving the server.\n\n### Features\n\n* **Tasks:** projects with custom workflows; list, board and timeline views;\n  sub-issues, labels, saved views and trash. GitHub sync, and import from\n  Asana, Linear and Trello.\n* **Docs:** a page tree with live collaborative editing, version history,\n  search and Notion import.\n* **Chat:** channels, direct messages, threads, files and search.\n* **AI:** an MCP server with OAuth. AI clients can read and write tasks and\n  docs, and read chat.\n* **Admin:** workspaces, members, roles, API tokens, audit log, email, sign-in\n  providers, rate limits, storage and workspace export.\n* **Sign-in:** email and password or passkeys; Google and GitHub sign-in are\n  optional.\n\nOrbit's Mail section is still in development upstream and shows \"Coming soon\";\nit is not a working mail client yet.\n\n### Cloudron integration\n\n* **Backups:** the SQLite database (backed up consistently), attachments and\n  the app key are in Cloudron backups.\n* **Outgoing mail:** invitations, password resets and sign-up links can go\n  through the Cloudron mail relay. Run `orbit-mail-settings` in the Terminal\n  for the values to enter in Orbit's Admin → Email page.\n* **Command line:** `orbit`, `orbit-offline` and `orbit-setup-link` in the\n  Terminal run the upstream operator CLI with this app's settings.\n\nCloudron single sign-on is not available: Orbit does not support OpenID\nConnect yet.\n\n[Orbit](https://github.com/coollabsio/orbit) is open source under the\nApache-2.0 licence. This package is maintained independently of the Orbit\nproject.\n",
+                "tagline": "Self-hosted tasks, docs and team chat in one workspace",
+                "version": "0.1.0",
+                "upstreamVersion": "0.2.1",
+                "healthCheckPath": "/health/ready",
+                "httpPort": 8000,
+                "manifestVersion": 2,
+                "website": "https://orbit.so",
+                "contactEmail": "marcus@marcusquinn.com",
+                "icon": "file://logo.png",
+                "iconUrl": "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/logo.png",
+                "mediaLinks": [
+                    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-1-tasks.png",
+                    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-2-docs.png",
+                    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-3-chat.png",
+                    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/listing-4-mcp.png",
+                    "https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/435f410804189d54d3058282c7d67c0e70dd2e8c/media/hero.png"
+                ],
+                "documentationUrl": "https://github.com/marcusquinn/cloudron-orbit-app/blob/main/README.md",
+                "upstreamLicense": {
+                    "name": "Apache-2.0",
+                    "url": "https://github.com/coollabsio/orbit/blob/fe9dce7b155169cd02461d939dd0d6d8f9e50283/LICENSE"
+                },
+                "minBoxVersion": "10.0.0",
+                "memoryLimit": 1073741824,
+                "addons": {
+                    "localstorage": {
+                        "sqlite": {
+                            "paths": [
+                                "/app/data/database/orbit.sqlite"
+                            ]
+                        }
+                    },
+                    "sendmail": {
+                        "supportsDisplayName": true
+                    }
+                },
+                "tags": [
+                    "productivity",
+                    "project-management",
+                    "wiki",
+                    "chat",
+                    "collaboration"
+                ],
+                "postInstallMessage": "**Create the root account.** When Orbit first starts it prints a one-time\nsetup link in the app's **Logs**. Open it to create the root account and your\nfirst workspace. For a fresh link, run `orbit-setup-link` in the app's\n**Terminal**. Treat the link as a password: whoever opens it first becomes the\nroot user.\n\n**Set up email** in Orbit's **Admin → Email** page. Orbit needs it for\npassword resets, email changes, emailed invitations and open registration. Run\n`orbit-mail-settings` in the Terminal for the Cloudron mail relay's values (the\noutput includes the relay password), choose **None (local relay only)** as the\nencryption, save, and use **Send test email**. Run it again if mail stops after\nthe app's email settings change or the app is cloned.\n\n**Invite your team** from **Settings → Members**. **Generate link** works\nwithout email. Registration stays closed unless you open it in\n**Admin → General**.\n\nKeep backups of the app: `/app/data/secrets/app-key` decrypts the mail and\nsign-in provider secrets Orbit stores.\n\nSettings and commands: [README](https://github.com/marcusquinn/cloudron-orbit-app/blob/main/README.md).\n",
+                "configurePath": "/admin",
+                "changelog": "* Initial Cloudron package for Orbit 0.2.1 (upstream commit fe9dce7), built from upstream's release image pinned by digest.\n* SQLite database, attachments and the app key in /app/data, with Cloudron's consistent SQLite backups.\n* Outgoing mail through the Cloudron relay: `orbit-mail-settings` prints the values for Admin → Email.\n* `orbit-setup-link` prints a fresh first-run setup link; `orbit-offline` runs the upstream CLI commands that need the server stopped.\n* Orbit's Mail section is still a preview with mock data upstream.\n",
+                "packagerName": "Marcus Quinn",
+                "packagerUrl": "https://github.com/marcusquinn/cloudron-orbit-app",
+                "packageUrl": "https://github.com/marcusquinn/cloudron-orbit-app",
+                "dockerImage": "ghcr.io/marcusquinn/cloudron-orbit-app@sha256:2e3de9a6b4fa4bb16d59b282147c13d67e60bad9f920d5f5d9b26a9c006cb7a0"
+            },
+            "creationDate": "Sat, 07 Nov 2026 00:44:27 GMT",
+            "ts": "Sat, 07 Nov 2026 00:44:27 GMT",
+            "publishState": "published"
+        }
+    }
 }
