@@ -31,7 +31,7 @@ jq -e --arg v "$upstream_version" --arg c "$upstream_commit" --arg repo "$repo_u
 	and .addons.localstorage.sqlite.paths == ["/app/data/database/orbit.sqlite"]
 	and .upstreamLicense.name == "Apache-2.0"
 	and .upstreamLicense.url == "https://github.com/coollabsio/orbit/blob/\($c)/LICENSE"
-	and .packagerUrl == $repo and .packageUrl == $repo
+	and .packagerUrl == "https://github.com/marcusquinn" and .packageUrl == $repo
 	and .description == "file://DESCRIPTION.md"
 	and .postInstallMessage == "file://POSTINSTALL.md"
 	and .changelog == "file://CHANGELOG"
