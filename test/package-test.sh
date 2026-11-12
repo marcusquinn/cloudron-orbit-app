@@ -14,8 +14,8 @@ fail() {
 	exit 1
 }
 
-upstream_version=0.2.1
-upstream_commit=fe9dce7b155169cd02461d939dd0d6d8f9e50283
+upstream_version=0.3.0
+upstream_commit=a7402204c7cadcac4747cbf47a60685a20f59498
 repo_url=https://github.com/marcusquinn/cloudron-orbit-app
 
 # Manifest: port, health, addons and links the runtime depends on.

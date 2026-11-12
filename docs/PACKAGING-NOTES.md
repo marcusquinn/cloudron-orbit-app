@@ -2,11 +2,11 @@
 
 ## Pinned runtime
 
-Orbit 0.2.1: tag `v0.2.1`, commit `fe9dce7b155169cd02461d939dd0d6d8f9e50283`,
-Apache-2.0. The image copies the `orbit` binary from upstream's release image
-`ghcr.io/coollabsio/orbit:0.2.1`, pinned by its multi-arch index digest
-`sha256:4ab1882b…7a81ce61` (full value in the Dockerfile). The image's revision
-label matches the tag commit. The binary is a static (musl) Rust executable
+Orbit 0.3.0: commit `a740220`, Apache-2.0. The image copies the `orbit` binary
+from upstream's release image `ghcr.io/coollabsio/orbit:0.3.0`, pinned by its
+multi-arch index digest `sha256:381b897b…091b20` (full value in the Dockerfile).
+Orbit 0.2.1 (commit `fe9dce7b155169cd02461d939dd0d6d8f9e50283`) was the pin
+for the Cloudron verification below. The binary is a static (musl) Rust executable
 with the web app embedded, so it runs on the Ubuntu-based `cloudron/base:6.0.1`
 image, also pinned by digest. No upstream source is patched.
 
@@ -159,7 +159,7 @@ rendered and worked.
 
 ## Cloudron verification
 
-On 2026-11-07 the package from commit `77821a1` was installed as a disposable
+These results cover Orbit 0.2.1 (package 0.1.0), not 0.3.0. On 2026-11-07 the package from commit `77821a1` was installed as a disposable
 app on a Cloudron 10.1.6 server (x86-64, Docker 29.6.2) with Cloudron CLI 9.0.4,
 built on the server (image ID `sha256:00c2e2cc…0cf229f` after the update test;
 Orbit binary from the upstream digest above). Two accounts were used: the root
