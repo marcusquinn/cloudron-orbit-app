@@ -6,7 +6,7 @@ chat in one workspace, with an MCP server for AI clients.
 
 | | |
 |---|---|
-| Upstream | Orbit 0.2.1, commit `fe9dce7`, Apache-2.0 |
+| Upstream | Orbit 0.3.0, commit `a740220`, Apache-2.0 |
 | Package | 0.1.0, MIT |
 | Status | Testing release, checked on one Cloudron 10.1.6 server ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
 | Requires | Cloudron 10.0.0 or later, x86-64 |
@@ -76,7 +76,7 @@ others with a warning in the log:
 - `ORBIT_UPLOAD_MAX_REQUEST_BYTES`: largest upload request.
 - `ORBIT_JOBS_CONCURRENCY`: background jobs at once, default 4.
 - `ORBIT_RATE_LIMIT_*`: rate limits, see upstream
-  [docs/operations.md](https://github.com/coollabsio/orbit/blob/fe9dce7b155169cd02461d939dd0d6d8f9e50283/docs/operations.md).
+  [docs/operations.md](https://github.com/coollabsio/orbit/blob/a7402204c7cadcac4747cbf47a60685a20f59498/docs/operations.md).
 
 Everything else, including email and sign-in providers, is set in Orbit's
 **Admin** pages.

@@ -1,3 +1,6 @@
+[0.1.1]
+* Update to Orbit 0.3.0 (upstream commit a740220): Notion-style databases in Docs, Orbit-to-Orbit import, a chat-only guest role, more MCP tools and Tasks/Docs trash controls.
+
 [0.1.0]
 * Initial Cloudron package for Orbit 0.2.1 (upstream commit fe9dce7), built from upstream's release image pinned by digest.
 * SQLite database, attachments and the app key in /app/data, with Cloudron's consistent SQLite backups.
