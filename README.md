@@ -7,8 +7,8 @@ chat in one workspace, with an MCP server for AI clients.
 | | |
 |---|---|
 | Upstream | Orbit 0.3.0, commit `a740220`, Apache-2.0 |
-| Package | 0.1.0, MIT |
-| Status | Testing release, checked on one Cloudron 10.1.6 server ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
+| Package | 0.1.1, MIT |
+| Status | Testing release. Orbit 0.2.1 was checked on one Cloudron 10.1.6 server; 0.3.0 has not been ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
 | Requires | Cloudron 10.0.0 or later, x86-64 |
 | Install | `cloudron install --versions-url https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/main/CloudronVersions.json` |
 
