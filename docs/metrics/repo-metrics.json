@@ -1,0 +1,82 @@
+{
+  "schema": "aidevops.repo-metrics.v1",
+  "schema_version": 1,
+  "generated_at": "2026-11-13T11:55:53Z",
+  "tool": {
+    "name": "aidevops repo-metrics",
+    "version": "1.0.0"
+  },
+  "repo": {
+    "name": "cloudron-orbit-app",
+    "slug": "marcusquinn/cloudron-orbit-app"
+  },
+  "summary": {
+    "source_files": 19,
+    "code": 1054,
+    "comments": 171,
+    "blanks": 163,
+    "languages": 5,
+    "dependencies": 0
+  },
+  "languages": [
+    {
+      "name": "Markdown",
+      "files": 7,
+      "code": 521,
+      "comments": 0,
+      "blanks": 109,
+      "percentage": 49.43,
+      "color": "#083fa1"
+    },
+    {
+      "name": "Shell",
+      "files": 3,
+      "code": 197,
+      "comments": 59,
+      "blanks": 25,
+      "percentage": 18.69,
+      "color": "#89e051"
+    },
+    {
+      "name": "JSON",
+      "files": 2,
+      "code": 174,
+      "comments": 0,
+      "blanks": 0,
+      "percentage": 16.51,
+      "color": "#292929"
+    },
+    {
+      "name": "YAML",
+      "files": 6,
+      "code": 138,
+      "comments": 102,
+      "blanks": 22,
+      "percentage": 13.09,
+      "color": "#cb171e"
+    },
+    {
+      "name": "Dockerfile",
+      "files": 1,
+      "code": 24,
+      "comments": 10,
+      "blanks": 7,
+      "percentage": 2.28,
+      "color": "#384d54"
+    }
+  ],
+  "dependencies": {
+    "direct": 0,
+    "runtime": 0,
+    "dev": 0,
+    "locked": 0,
+    "total": 0,
+    "ecosystems": [],
+    "manifests": []
+  },
+  "refresh": {
+    "default_policy": "weekly scheduled refresh plus manual runs; skip generated outputs younger than 24h in managed workflows",
+    "cost_profile": "fast local git/unignored-file scan; no network by default",
+    "top_languages": 6
+  }
+}
