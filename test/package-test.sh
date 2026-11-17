@@ -15,7 +15,11 @@ fail() {
 }
 
 upstream_version=0.3.0
-upstream_commit=a7402204c7cadcac4747cbf47a60685a20f59498
+# The Dockerfile is the single source of the release commit; the checks below
+# tie the manifest license URL to it. Routine upstream bumps then change only
+# version tokens here, which the signed standing release policy can verify.
+upstream_commit="$(sed -nE 's/^ARG ORBIT_COMMIT=([0-9a-f]{40})$/\1/p' Dockerfile)"
+[[ "$upstream_commit" =~ ^[0-9a-f]{40}$ ]] || fail 'Dockerfile ORBIT_COMMIT is not exactly one full commit SHA'
 repo_url=https://github.com/marcusquinn/cloudron-orbit-app
 
 # Manifest: port, health, addons and links the runtime depends on.
@@ -42,11 +46,14 @@ jq -e --arg v "$upstream_version" --arg c "$upstream_commit" --arg repo "$repo_u
 
 # The image builds the upstream release the manifest names, pinned by digest.
 grep -Fxq "ARG ORBIT_VERSION=$upstream_version" Dockerfile || fail 'Dockerfile ORBIT_VERSION'
-grep -Fxq "ARG ORBIT_COMMIT=$upstream_commit" Dockerfile || fail 'Dockerfile ORBIT_COMMIT'
 grep -Eq "^FROM ghcr\.io/coollabsio/orbit:${upstream_version//./\\.}@sha256:[0-9a-f]{64} AS orbit$" Dockerfile ||
 	fail 'upstream image is not the pinned release digest'
 grep -Eq '^FROM cloudron/base:[0-9.]+@sha256:[0-9a-f]{64}$' Dockerfile || fail 'base image is not pinned by digest'
-grep -Fq "Orbit $upstream_version, commit \`${upstream_commit:0:7}\`" README.md || fail 'README names another upstream release'
+# README points at the manifest instead of repeating per-release pins, so an
+# upstream bump does not need a README edit.
+# shellcheck disable=SC2016 # Markdown backticks are literal.
+grep -Fq 'Orbit release named by `upstreamVersion` in [CloudronManifest.json]' README.md ||
+	fail 'README Upstream row must point at the manifest'
 
 # Orbit listens on loopback behind nginx on the manifest port, trusts only
 # nginx, and keeps its database where the manifest backs it up.
