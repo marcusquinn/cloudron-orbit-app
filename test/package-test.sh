@@ -14,7 +14,7 @@ fail() {
 	exit 1
 }
 
-upstream_version=0.3.0
+upstream_version=0.4.0
 # The Dockerfile is the single source of the release commit; the checks below
 # tie the manifest license URL to it. Routine upstream bumps then change only
 # version tokens here, which the signed standing release policy can verify.
