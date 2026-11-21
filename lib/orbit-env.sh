@@ -99,5 +99,14 @@ orbit_export_env() {
 	export ORBIT_ATTACHMENTS_PATH="$ORBIT_DATA_DIR/attachments"
 	export ORBIT_BACKUPS_PATH="$ORBIT_DATA_DIR/backups"
 	export ORBIT_APP_KEY_FILE="$ORBIT_KEY_FILE"
+
+	# Cloudron single sign-on. Orbit refuses partial OIDC settings, so they
+	# are exported only when the addon provided all three required values.
+	if [[ -n "${CLOUDRON_OIDC_ISSUER:-}" && -n "${CLOUDRON_OIDC_CLIENT_ID:-}" && -n "${CLOUDRON_OIDC_CLIENT_SECRET:-}" ]]; then
+		export ORBIT_OIDC_ISSUER="$CLOUDRON_OIDC_ISSUER"
+		export ORBIT_OIDC_CLIENT_ID="$CLOUDRON_OIDC_CLIENT_ID"
+		export ORBIT_OIDC_CLIENT_SECRET="$CLOUDRON_OIDC_CLIENT_SECRET"
+		export ORBIT_OIDC_DISPLAY_NAME="${CLOUDRON_OIDC_PROVIDER_NAME:-Cloudron}"
+	fi
 	return 0
 }

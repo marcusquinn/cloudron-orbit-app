@@ -100,12 +100,26 @@ Orbit's **Mail** section is not email support. In 0.2.1 the sidebar shows it as
 
 Orbit 0.4.0 added sign-in with an OpenID Connect provider, configured only
 through `ORBIT_OIDC_ISSUER`, `ORBIT_OIDC_CLIENT_ID`, `ORBIT_OIDC_CLIENT_SECRET`
-and `ORBIT_OIDC_DISPLAY_NAME`. The package does not set them yet and
-`/app/data/orbit.env` does not accept them, so there is no Cloudron single
-sign-on. Wiring Cloudron's `oidc` addon to these settings needs a check of how
-Orbit links an OIDC identity to an existing account and a test on a Cloudron
-server first. People sign in with email and password or passkeys; Google and
-GitHub sign-in can be added in **Admin → Sign-in providers**.
+and `ORBIT_OIDC_DISPLAY_NAME`. From package 0.1.3 the manifest requests
+Cloudron's `oidc` addon with `loginRedirectUri`
+`/api/v1/auth/providers/oidc/callback`, and `orbit_export_env` in
+`lib/orbit-env.sh` maps `CLOUDRON_OIDC_ISSUER`, `CLOUDRON_OIDC_CLIENT_ID`,
+`CLOUDRON_OIDC_CLIENT_SECRET` and `CLOUDRON_OIDC_PROVIDER_NAME` (fallback
+`Cloudron`) to those settings, only when issuer, client ID and secret are all
+present, because Orbit refuses partial settings. They are package-owned and
+not accepted in `/app/data/orbit.env`. `start.sh` and `bin/orbit` both use the
+function, so the CLI matches the server.
+
+Upstream links a first OIDC sign-in to an existing account only when the
+provider sends `email_verified: true`; accounts are keyed by issuer and `sub`.
+Not yet verified on a Cloudron server (record under "Cloudron verification"):
+whether Cloudron's userinfo sends `email_verified: true` (if not, existing
+accounts cannot be linked on first sign-in), that `CLOUDRON_OIDC_ISSUER`
+equals the discovery `issuer` exactly, that `cloudron update` from 0.1.2
+provisions the client, and whether an OIDC first sign-in creates an account
+when `ORBIT_OPEN_REGISTRATION` is off. Password and passkey sign-in do not
+depend on these settings. Google and GitHub sign-in can still be added in
+**Admin → Sign-in providers**.
 
 On first start Orbit prints a one-time setup link in the log. Whoever opens it
 first becomes the root user, so it is treated as a password.

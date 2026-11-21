@@ -56,10 +56,11 @@ default gateway (Cloudron's proxy). Orbit's hosted-service mode
 3. Invite people from **Settings → Members**: send the invitation by email or
    use **Generate link**.
 
-Google and GitHub sign-in are optional, in **Admin → Sign-in providers**.
-Orbit 0.4 added OpenID Connect sign-in, but the package does not configure it
-yet, so there is no Cloudron single sign-on
-([notes](docs/PACKAGING-NOTES.md#sign-in)).
+Cloudron single sign-on is configured automatically through the `oidc`
+addon: the sign-in page offers "Continue with Cloudron". Orbit links a first
+SSO sign-in to an existing account only when the provider reports the email as
+verified ([notes](docs/PACKAGING-NOTES.md#sign-in)). Google and GitHub sign-in
+are optional, in **Admin → Sign-in providers**.
 
 ## Data and backups
 

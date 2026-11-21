@@ -4,7 +4,7 @@
   "author": "Marcus Quinn <marcus@marcusquinn.com>",
   "description": "file://DESCRIPTION.md",
   "tagline": "Self-hosted tasks, docs and team chat in one workspace",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "upstreamVersion": "0.4.1",
   "healthCheckPath": "/health/ready",
   "httpPort": 8000,
@@ -32,6 +32,9 @@
       "sqlite": {
         "paths": ["/app/data/database/orbit.sqlite"]
       }
+    },
+    "oidc": {
+      "loginRedirectUri": "/api/v1/auth/providers/oidc/callback"
     },
     "sendmail": {
       "supportsDisplayName": true
