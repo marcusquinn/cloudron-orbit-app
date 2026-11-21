@@ -5,6 +5,7 @@ without your data leaving the server.
 ### Features
 
 * **Tasks:** projects with custom workflows; list, board and timeline views;
+  milestones, cycles, estimates and recurring tasks; private projects;
   sub-issues, labels, saved views and trash. GitHub sync, and import from
   Asana, Linear and Trello.
 * **Docs:** a page tree with live collaborative editing, version history,
@@ -30,8 +31,8 @@ it is not a working mail client yet.
 * **Command line:** `orbit`, `orbit-offline` and `orbit-setup-link` in the
   Terminal run the upstream operator CLI with this app's settings.
 
-Cloudron single sign-on is not available: Orbit does not support OpenID
-Connect yet.
+Cloudron single sign-on is not available yet: Orbit added OpenID Connect
+sign-in in 0.4, but this package does not configure it.
 
 [Orbit](https://github.com/coollabsio/orbit) is open source under the
 Apache-2.0 licence. This package is maintained independently of the Orbit

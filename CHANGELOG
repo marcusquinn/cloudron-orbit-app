@@ -1,3 +1,7 @@
+[0.1.2]
+* Update to Orbit 0.4.1 (upstream commit 17ed06a): milestones, cycles and estimates, recurring tasks, private projects, custom workspace roles, task webhooks, `#` task references and ⌘K search (0.4.0), plus 0.4.1's write-lock and S3 reliability fixes.
+* Orbit 0.4 can sign in with an OpenID Connect provider, but this package does not configure it yet, so Cloudron single sign-on is still not available.
+
 [0.1.1]
 * Update to Orbit 0.3.0 (upstream commit a740220): Notion-style databases in Docs, Orbit-to-Orbit import, a chat-only guest role, more MCP tools and Tasks/Docs trash controls.
 

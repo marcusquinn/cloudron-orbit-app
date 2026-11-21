@@ -8,7 +8,7 @@ chat in one workspace, with an MCP server for AI clients.
 |---|---|
 | Upstream | Orbit release named by `upstreamVersion` in [CloudronManifest.json](CloudronManifest.json) (release commit: `ARG ORBIT_COMMIT` in [Dockerfile](Dockerfile)), Apache-2.0 |
 | Package | `version` in [CloudronManifest.json](CloudronManifest.json); changes in [CHANGELOG](CHANGELOG), MIT |
-| Status | Testing release. Orbit 0.2.1 was checked on one Cloudron 10.1.6 server; 0.3.0 has not been ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
+| Status | Testing release. Orbit 0.2.1 was checked on one Cloudron 10.1.6 server; later versions have not been, and the 0.3.0 to 0.4.1 upgrade was checked locally ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
 | Requires | Cloudron 10.0.0 or later, x86-64 |
 | Install | `cloudron install --versions-url https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/main/CloudronVersions.json` |
 
@@ -46,8 +46,9 @@ default gateway (Cloudron's proxy). Orbit's hosted-service mode
    use **Generate link**.
 
 Google and GitHub sign-in are optional, in **Admin → Sign-in providers**.
-Cloudron single sign-on needs OpenID Connect support upstream
-([#65](https://github.com/coollabsio/orbit/issues/65)).
+Orbit 0.4 added OpenID Connect sign-in, but the package does not configure it
+yet, so there is no Cloudron single sign-on
+([notes](docs/PACKAGING-NOTES.md#sign-in)).
 
 ## Data and backups
 

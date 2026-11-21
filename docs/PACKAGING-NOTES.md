@@ -2,9 +2,12 @@
 
 ## Pinned runtime
 
-Orbit 0.3.0: commit `a740220`, Apache-2.0. The image copies the `orbit` binary
-from upstream's release image `ghcr.io/coollabsio/orbit:0.3.0`, pinned by its
-multi-arch index digest `sha256:381b897b…091b20` (full value in the Dockerfile).
+Orbit 0.4.1: commit `17ed06a`, Apache-2.0. The image copies the `orbit` binary
+from upstream's release image `ghcr.io/coollabsio/orbit:0.4.1`, pinned by its
+multi-arch index digest `sha256:5193908e…b58dff` (full value in the Dockerfile).
+The amd64 image in that index carries the label
+`org.opencontainers.image.revision=17ed06ae…`, the commit the `v0.4.1` tag
+points at.
 Orbit 0.2.1 (commit `fe9dce7b155169cd02461d939dd0d6d8f9e50283`) was the pin
 for the Cloudron verification below. The binary is a static (musl) Rust executable
 with the web app embedded, so it runs on the Ubuntu-based `cloudron/base:6.0.1`
@@ -95,11 +98,14 @@ Orbit's **Mail** section is not email support. In 0.2.1 the sidebar shows it as
 
 ## Sign-in
 
-Orbit has no OpenID Connect sign-in
-([coollabsio/orbit#65](https://github.com/coollabsio/orbit/issues/65), open on
-2026-11-06), so the package has no Cloudron single sign-on. People sign in with
-email and password or passkeys; Google and GitHub sign-in can be added in
-**Admin → Sign-in providers**.
+Orbit 0.4.0 added sign-in with an OpenID Connect provider, configured only
+through `ORBIT_OIDC_ISSUER`, `ORBIT_OIDC_CLIENT_ID`, `ORBIT_OIDC_CLIENT_SECRET`
+and `ORBIT_OIDC_DISPLAY_NAME`. The package does not set them yet and
+`/app/data/orbit.env` does not accept them, so there is no Cloudron single
+sign-on. Wiring Cloudron's `oidc` addon to these settings needs a check of how
+Orbit links an OIDC identity to an existing account and a test on a Cloudron
+server first. People sign in with email and password or passkeys; Google and
+GitHub sign-in can be added in **Admin → Sign-in providers**.
 
 On first start Orbit prints a one-time setup link in the log. Whoever opens it
 first becomes the root user, so it is treated as a password.
@@ -157,9 +163,32 @@ and a 404 for `view-preferences`. Other console errors on some settings pages,
 besides the test proxy's untrusted certificate, were not investigated. Pages
 rendered and worked.
 
+### 0.3.0 to 0.4.1 upgrade (package 0.1.2)
+
+On 2026-11-21 the build host had no amd64 emulation, so the package files were
+run unchanged on an arm64 Ubuntu 24.04 image (the release of `cloudron/base`
+6) with the `cloudron` user and `gosu` added, once with the Orbit 0.3.0 binary
+and once with 0.4.1, both from the pinned upstream digests. The amd64 build
+itself is checked by the catalog workflow's no-push PR build.
+
+- Fresh install on 0.4.1: the app key was created, `orbit config check`
+  passed, the setup link was printed and `/health/ready` answered 200 with all
+  checks ready.
+- Upgrade: on 0.3.0, setup through the API created the root account, a
+  workspace, a project, a task and a page (92 migrations). The 0.4.1 image
+  started on that data directory and applied 22 more migrations (114). The
+  task, the page and the existing browser session were intact, the app key was
+  reused and `PRAGMA integrity_check` returned ok. `orbit-offline root show`
+  and a restart worked.
+- Orbit takes a pre-migration snapshot only when a pending migration is
+  destructive (`crates/platform/src/db/migrate.rs`). None of the 0.4.x
+  migrations is, so `/app/data/backups/pre-migration` gained no new snapshot.
+  Cloudron's own backup before the update covers this.
+- Memory at idle: about 34 MiB per container.
+
 ## Cloudron verification
 
-These results cover Orbit 0.2.1 (package 0.1.0), not 0.3.0. On 2026-11-07 the package from commit `77821a1` was installed as a disposable
+These results cover Orbit 0.2.1 (package 0.1.0), not 0.3.0 or 0.4.1. On 2026-11-07 the package from commit `77821a1` was installed as a disposable
 app on a Cloudron 10.1.6 server (x86-64, Docker 29.6.2) with Cloudron CLI 9.0.4,
 built on the server (image ID `sha256:00c2e2cc…0cf229f` after the update test;
 Orbit binary from the upstream digest above). Two accounts were used: the root
