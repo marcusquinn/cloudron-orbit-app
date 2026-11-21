@@ -163,6 +163,29 @@ and a 404 for `view-preferences`. Other console errors on some settings pages,
 besides the test proxy's untrusted certificate, were not investigated. Pages
 rendered and worked.
 
+### 0.3.0 to 0.4.1 upgrade (package 0.1.2)
+
+On 2026-11-21 the build host had no amd64 emulation, so the package files were
+run unchanged on an arm64 Ubuntu 24.04 image (the release of `cloudron/base`
+6) with the `cloudron` user and `gosu` added, once with the Orbit 0.3.0 binary
+and once with 0.4.1, both from the pinned upstream digests. The amd64 build
+itself is checked by the catalog workflow's no-push PR build.
+
+- Fresh install on 0.4.1: the app key was created, `orbit config check`
+  passed, the setup link was printed and `/health/ready` answered 200 with all
+  checks ready.
+- Upgrade: on 0.3.0, setup through the API created the root account, a
+  workspace, a project, a task and a page (92 migrations). The 0.4.1 image
+  started on that data directory and applied 22 more migrations (114). The
+  task, the page and the existing browser session were intact, the app key was
+  reused and `PRAGMA integrity_check` returned ok. `orbit-offline root show`
+  and a restart worked.
+- Orbit takes a pre-migration snapshot only when a pending migration is
+  destructive (`crates/platform/src/db/migrate.rs`). None of the 0.4.x
+  migrations is, so `/app/data/backups/pre-migration` gained no new snapshot.
+  Cloudron's own backup before the update covers this.
+- Memory at idle: about 34 MiB per container.
+
 ## Cloudron verification
 
 These results cover Orbit 0.2.1 (package 0.1.0), not 0.3.0 or 0.4.1. On 2026-11-07 the package from commit `77821a1` was installed as a disposable
