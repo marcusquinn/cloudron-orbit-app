@@ -1,5 +1,6 @@
 [0.1.3]
-* Cloudron single sign-on: the `oidc` addon is wired to Orbit's OpenID Connect sign-in, so Cloudron users can choose "Continue with Cloudron" on the sign-in page. Password and passkey sign-in are unchanged. A first SSO sign-in links to an existing Orbit account only when Cloudron reports the email as verified.
+* Cloudron single sign-on: the `oidc` addon is wired to Orbit's OpenID Connect sign-in, so the sign-in page offers "Continue with" your Cloudron's name. Password and passkey sign-in are unchanged.
+* A Cloudron user needs an Orbit account with the same email first (an invitation), because registration stays closed. The first SSO sign-in links that account once its email is confirmed in Orbit and, if it has a password, after the person enters it once.
 
 [0.1.2]
 * Update to Orbit 0.4.1 (upstream commit 17ed06a): milestones, cycles and estimates, recurring tasks, private projects, custom workspace roles, task webhooks, `#` task references and ⌘K search (0.4.0), plus 0.4.1's write-lock and S3 reliability fixes.

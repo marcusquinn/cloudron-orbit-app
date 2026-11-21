@@ -106,7 +106,14 @@ orbit_export_env() {
 		export ORBIT_OIDC_ISSUER="$CLOUDRON_OIDC_ISSUER"
 		export ORBIT_OIDC_CLIENT_ID="$CLOUDRON_OIDC_CLIENT_ID"
 		export ORBIT_OIDC_CLIENT_SECRET="$CLOUDRON_OIDC_CLIENT_SECRET"
-		export ORBIT_OIDC_DISPLAY_NAME="${CLOUDRON_OIDC_PROVIDER_NAME:-Cloudron}"
+		# The provider name is the Cloudron's own name, which the admin
+		# chooses. Orbit refuses a display name over 50 characters, so a
+		# longer one falls back to "Cloudron" rather than stopping the app.
+		local display_name="${CLOUDRON_OIDC_PROVIDER_NAME:-Cloudron}"
+		if ((${#display_name} > 50)); then
+			display_name=Cloudron
+		fi
+		export ORBIT_OIDC_DISPLAY_NAME="$display_name"
 	fi
 	return 0
 }

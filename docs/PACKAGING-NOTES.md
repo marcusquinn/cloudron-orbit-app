@@ -104,22 +104,38 @@ and `ORBIT_OIDC_DISPLAY_NAME`. From package 0.1.3 the manifest requests
 Cloudron's `oidc` addon with `loginRedirectUri`
 `/api/v1/auth/providers/oidc/callback`, and `orbit_export_env` in
 `lib/orbit-env.sh` maps `CLOUDRON_OIDC_ISSUER`, `CLOUDRON_OIDC_CLIENT_ID`,
-`CLOUDRON_OIDC_CLIENT_SECRET` and `CLOUDRON_OIDC_PROVIDER_NAME` (fallback
-`Cloudron`) to those settings, only when issuer, client ID and secret are all
-present, because Orbit refuses partial settings. They are package-owned and
-not accepted in `/app/data/orbit.env`. `start.sh` and `bin/orbit` both use the
-function, so the CLI matches the server.
+`CLOUDRON_OIDC_CLIENT_SECRET` and `CLOUDRON_OIDC_PROVIDER_NAME` to those
+settings, only when issuer, client ID and secret are all present, because
+Orbit refuses partial settings. They are package-owned and not accepted in
+`/app/data/orbit.env`. `start.sh` and `bin/orbit` both use the function, so
+the CLI matches the server.
 
-Upstream links a first OIDC sign-in to an existing account only when the
-provider sends `email_verified: true`; accounts are keyed by issuer and `sub`.
-Not yet verified on a Cloudron server (record under "Cloudron verification"):
-whether Cloudron's userinfo sends `email_verified: true` (if not, existing
-accounts cannot be linked on first sign-in), that `CLOUDRON_OIDC_ISSUER`
-equals the discovery `issuer` exactly, that `cloudron update` from 0.1.2
-provisions the client, and whether an OIDC first sign-in creates an account
-when `ORBIT_OPEN_REGISTRATION` is off. Password and passkey sign-in do not
-depend on these settings. Google and GitHub sign-in can still be added in
-**Admin → Sign-in providers**.
+`CLOUDRON_OIDC_PROVIDER_NAME` is the Cloudron's own name (its branding), not
+"Cloudron", so the button reads "Continue with" that name. Orbit refuses to
+start with a display name over 50 characters
+(`crates/platform/src/config/instance.rs`), so a longer name falls back to
+`Cloudron`.
+
+How a first SSO sign-in finds an account (checked on Cloudron, see below):
+
+- Cloudron's issuer is `https://my.<domain>/openid` with no trailing slash and
+  matches its discovery document, and Cloudron reports the email as verified.
+- Accounts are keyed by issuer and `sub`. A first sign-in matches an Orbit
+  account by email only when Orbit has confirmed that account's email: through
+  an emailed link, or an admin's **Manage → Change email**. An account
+  created from a **Generate link** invitation has not, and Orbit answers "Email
+  not confirmed": the person signs in with their password and connects the
+  provider in **Account → Security**.
+- When the matching account has a password, Orbit asks for it once to connect
+  the provider. Later sign-ins go straight through.
+- With registration closed (the default), a Cloudron user without an Orbit
+  account gets "Registration closed". With open registration, upstream creates
+  an account without a password (not tested here).
+- Cloudron's own access control for the app decides who can reach the sign-in
+  at all.
+
+Password and passkey sign-in do not depend on these settings. Google and
+GitHub sign-in can still be added in **Admin → Sign-in providers**.
 
 On first start Orbit prints a one-time setup link in the log. Whoever opens it
 first becomes the root user, so it is treated as a password.
@@ -254,6 +270,36 @@ pull works), created the app key, printed the setup link and answered 200 on
 `/health/ready` and `/`. The digest's provenance verified against the reusable
 workflow at the pinned aidevops commit and source commit `6f94e7f`. The app was
 then uninstalled.
+
+### Single sign-on (package 0.1.3, Orbit 0.4.1)
+
+On 2026-11-21 the package from PR #29 was installed from source as a
+disposable app on the same Cloudron 10.1.6 server, which built it. A scripted
+browser used the Cloudron login page and Orbit's API, with a root user, one
+Cloudron user who had an Orbit account and one who did not.
+
+- The addon provided issuer, client ID, secret and provider name. Orbit
+  started with them, `/api/v1/auth/options` listed the `oidc` provider with the
+  Cloudron's name, and the sign-in page showed "Continue with" that name.
+- The issuer matched the discovery document's `issuer` exactly; the token
+  endpoint accepted `client_secret_basic`.
+- With registration closed, the Cloudron user without an Orbit account was
+  returned to Orbit with "Registration closed" and no account was created.
+- The Cloudron user whose Orbit account came from a **Generate link**
+  invitation got "Email not confirmed". After the root user confirmed the
+  email through **Manage → Change email** (changed and changed back), the next
+  SSO sign-in asked for the account's password once and linked the provider.
+  `/api/v1/me` showed the same account with the provider connected.
+- Later SSO sign-ins went straight in, as did password sign-in for the root
+  user and the member, after a restart and after a Cloudron backup and restore
+  in place.
+- Not checked: passkey sign-in (the options still report passkeys enabled),
+  open registration, and `cloudron update` from 0.1.2. The server refused the
+  update with "App update is blocked due to expired subscription", so the app
+  was reinstalled instead; whether an update provisions the OIDC client is
+  still open.
+
+The app and the Cloudron test users were then removed.
 
 Not checked: arm64, memory under load from several people, an update across
 Orbit versions on Cloudron (0.2.0 to 0.2.1 was checked only locally), and an

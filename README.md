@@ -19,7 +19,7 @@ chat in one workspace, with an MCP server for AI clients.
 |---|---|
 | Upstream | Orbit release named by `upstreamVersion` in [CloudronManifest.json](CloudronManifest.json) (release commit: `ARG ORBIT_COMMIT` in [Dockerfile](Dockerfile)), Apache-2.0 |
 | Package | `version` in [CloudronManifest.json](CloudronManifest.json); changes in [CHANGELOG](CHANGELOG), MIT |
-| Status | Testing release. Orbit 0.2.1 was checked on one Cloudron 10.1.6 server; later versions have not been, and the 0.3.0 to 0.4.1 upgrade was checked locally ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
+| Status | Testing release. Orbit 0.2.1 was checked on one Cloudron 10.1.6 server, and Cloudron single sign-on with Orbit 0.4.1 on the same server; the 0.3.0 to 0.4.1 upgrade was checked locally ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
 | Requires | Cloudron 10.0.0 or later, x86-64 |
 | Install | `cloudron install --versions-url https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/main/CloudronVersions.json` |
 
@@ -56,11 +56,16 @@ default gateway (Cloudron's proxy). Orbit's hosted-service mode
 3. Invite people from **Settings → Members**: send the invitation by email or
    use **Generate link**.
 
-Cloudron single sign-on is configured automatically through the `oidc`
-addon: the sign-in page offers "Continue with Cloudron". Orbit links a first
-SSO sign-in to an existing account only when the provider reports the email as
-verified ([notes](docs/PACKAGING-NOTES.md#sign-in)). Google and GitHub sign-in
-are optional, in **Admin → Sign-in providers**.
+Cloudron single sign-on is set up automatically through the `oidc` addon:
+the sign-in page offers "Continue with" your Cloudron's name. Registration
+stays closed, so a Cloudron user needs an Orbit account with the same email
+first, usually from an invitation. The first SSO sign-in links that account
+once Orbit has confirmed its email, and asks once for its password if it has
+one. A person whose email is not confirmed (for example, invited with
+**Generate link**) signs in with their password and connects the provider in
+**Account → Security**
+([notes](docs/PACKAGING-NOTES.md#sign-in)). Google and GitHub sign-in are
+optional, in **Admin → Sign-in providers**.
 
 ## Data and backups
 

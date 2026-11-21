@@ -15,6 +15,11 @@ the app's email settings change or the app is cloned.
 without email. Registration stays closed unless you open it in
 **Admin → General**.
 
+**Cloudron single sign-on** works for people who have an Orbit account with
+the same email as their Cloudron account. If Orbit says the email is not
+confirmed, they sign in with their password once and connect the provider in
+**Account → Security**.
+
 Keep backups of the app: `/app/data/secrets/app-key` decrypts the mail and
 sign-in provider secrets Orbit stores.
 
