@@ -46,8 +46,9 @@ default gateway (Cloudron's proxy). Orbit's hosted-service mode
    use **Generate link**.
 
 Google and GitHub sign-in are optional, in **Admin → Sign-in providers**.
-Cloudron single sign-on needs OpenID Connect support upstream
-([#65](https://github.com/coollabsio/orbit/issues/65)).
+Orbit 0.4 added OpenID Connect sign-in, but the package does not configure it
+yet, so there is no Cloudron single sign-on
+([notes](docs/PACKAGING-NOTES.md#sign-in)).
 
 ## Data and backups
 

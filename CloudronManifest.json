@@ -4,8 +4,8 @@
   "author": "Marcus Quinn <marcus@marcusquinn.com>",
   "description": "file://DESCRIPTION.md",
   "tagline": "Self-hosted tasks, docs and team chat in one workspace",
-  "version": "0.1.1",
-  "upstreamVersion": "0.3.0",
+  "version": "0.1.2",
+  "upstreamVersion": "0.4.1",
   "healthCheckPath": "/health/ready",
   "httpPort": 8000,
   "manifestVersion": 2,
@@ -23,7 +23,7 @@
   "documentationUrl": "https://github.com/marcusquinn/cloudron-orbit-app/blob/main/README.md",
   "upstreamLicense": {
     "name": "Apache-2.0",
-    "url": "https://github.com/coollabsio/orbit/blob/a7402204c7cadcac4747cbf47a60685a20f59498/LICENSE"
+    "url": "https://github.com/coollabsio/orbit/blob/17ed06ae5dcba8056c6fcec1ce4a40b1c978bed3/LICENSE"
   },
   "minBoxVersion": "10.0.0",
   "memoryLimit": 1073741824,

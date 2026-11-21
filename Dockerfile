@@ -8,10 +8,10 @@
 # container sits between Cloudron's proxy and Orbit: see nginx.conf.template.
 # No BuildKit-only syntax, so Cloudron's on-server build works.
 
-ARG ORBIT_VERSION=0.3.0
-ARG ORBIT_COMMIT=a7402204c7cadcac4747cbf47a60685a20f59498
+ARG ORBIT_VERSION=0.4.1
+ARG ORBIT_COMMIT=17ed06ae5dcba8056c6fcec1ce4a40b1c978bed3
 
-FROM ghcr.io/coollabsio/orbit:0.3.0@sha256:381b897bb0476589def71fdd7bd997abb8d34eed455e9816184a31046c091b20 AS orbit
+FROM ghcr.io/coollabsio/orbit:0.4.1@sha256:5193908ece7f08ea08e40a0c04a81a323dcd5d382b819459c43840bf7ab58dff AS orbit
 
 FROM cloudron/base:6.0.1@sha256:7b1e729960c3ca312d26e886917ba89483241bba0219ff292858e10d9d5768ee
 ARG ORBIT_VERSION
