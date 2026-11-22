@@ -27,6 +27,7 @@
   },
   "minBoxVersion": "10.0.0",
   "memoryLimit": 1073741824,
+  "optionalSso": true,
   "addons": {
     "localstorage": {
       "sqlite": {

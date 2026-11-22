@@ -56,8 +56,16 @@ default gateway (Cloudron's proxy). Orbit's hosted-service mode
 3. Invite people from **Settings → Members**: send the invitation by email or
    use **Generate link**.
 
-Cloudron single sign-on is set up automatically through the `oidc` addon:
-the sign-in page offers "Continue with" your Cloudron's name. Registration
+Cloudron single sign-on is set up through the `oidc` addon when the app is
+installed with Cloudron user management (the default; it can be turned off at
+install). Cloudron fixes this choice at install, so an installation from
+package 0.1.2 or earlier keeps password and passkey sign-in after the update
+and gets no SSO. To add SSO there, install a new instance with it, then move
+the data with Cloudron's
+**Import backup** ([Cloudron backups](https://docs.cloudron.io/backups));
+both must run the same package version.
+
+With SSO, the sign-in page offers "Continue with" your Cloudron's name. Registration
 stays closed, so a Cloudron user needs an Orbit account with the same email
 first, usually from an invitation. The first SSO sign-in links that account
 once Orbit has confirmed its email, and asks once for its password if it has

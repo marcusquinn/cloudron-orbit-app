@@ -131,8 +131,20 @@ How a first SSO sign-in finds an account (checked on Cloudron, see below):
 - With registration closed (the default), a Cloudron user without an Orbit
   account gets "Registration closed". With open registration, upstream creates
   an account without a password (not tested here).
-- Cloudron's own access control for the app decides who can reach the sign-in
-  at all.
+
+The manifest sets `optionalSso`, so the admin chooses at install whether the
+app uses Cloudron user management. Cloudron records that choice as the app's
+`sso` flag, which cannot change later
+([addons](https://docs.cloudron.io/packaging/addons)), and injects the
+`CLOUDRON_OIDC_*` variables only when it is on. An app installed from 0.1.2 or
+earlier has `sso: false` (those manifests had no auth addon), so after updating
+to 0.1.3 it gets no OIDC variables. The package then sets no `ORBIT_OIDC_*`
+settings and Orbit offers password and passkey sign-in as before. Without
+`optionalSso`, Cloudron ignores `cloudron install --no-sso` and always turns
+SSO on. To move an existing installation to SSO, install a new instance with
+SSO and use Cloudron's **Import backup** with a backup of the old one at the
+same package version ([backups](https://docs.cloudron.io/backups)); this route
+was not tested here.
 
 Password and passkey sign-in do not depend on these settings. Google and
 GitHub sign-in can still be added in **Admin → Sign-in providers**.
@@ -293,13 +305,23 @@ Cloudron user who had an Orbit account and one who did not.
 - Later SSO sign-ins went straight in, as did password sign-in for the root
   user and the member, after a restart and after a Cloudron backup and restore
   in place.
+- Updates from 0.1.2: `cloudron update` was refused by the server ("App
+  update is blocked due to expired subscription"), so no update was run. A
+  0.1.2 install from the published catalog had `sso: false` in the Cloudron
+  API. A NetBird app on the same server with the `oidc` addon and
+  `sso: false` had no `CLOUDRON_OIDC_*` variables, so Cloudron does not
+  provision the client for such an app.
+- Without `optionalSso`, `cloudron install --no-sso` of this package still
+  gave `sso: true` and nine `CLOUDRON_OIDC_*` variables. With `optionalSso`,
+  it gave `sso: false` and none: the same state as an updated 0.1.2 app. That
+  app started healthy, `/api/v1/auth/options` listed no providers,
+  `orbit config check` passed with no `ORBIT_OIDC_*` settings, and setup, an
+  invitation, root password sign-in and the admin email change worked.
 - Not checked: passkey sign-in (the options still report passkeys enabled),
-  open registration, and `cloudron update` from 0.1.2. The server refused the
-  update with "App update is blocked due to expired subscription", so the app
-  was reinstalled instead; whether an update provisions the OIDC client is
-  still open.
+  open registration, a real `cloudron update` from 0.1.2 and the
+  **Import backup** route to SSO.
 
-The app and the Cloudron test users were then removed.
+The apps and the Cloudron test users were then removed.
 
 Not checked: arm64, memory under load from several people, an update across
 Orbit versions on Cloudron (0.2.0 to 0.2.1 was checked only locally), and an

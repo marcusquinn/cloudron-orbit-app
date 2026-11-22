@@ -32,7 +32,8 @@ it is not a working mail client yet.
   Terminal run the upstream operator CLI with this app's settings.
 * **Single sign-on:** Cloudron users sign in with their Cloudron account.
   Registration stays closed, so each person needs an Orbit account with the
-  same email first, usually from an invitation.
+  same email first, usually from an invitation. SSO is optional at install;
+  an existing installation keeps password sign-in after updating.
 
 [Orbit](https://github.com/coollabsio/orbit) is open source under the
 Apache-2.0 licence. This package is maintained independently of the Orbit

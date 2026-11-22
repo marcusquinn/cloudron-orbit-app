@@ -33,6 +33,7 @@ jq -e --arg v "$upstream_version" --arg c "$upstream_commit" --arg repo "$repo_u
 	and .memoryLimit == 1073741824
 	and (.addons | keys) == ["localstorage", "oidc", "sendmail"]
 	and .addons.oidc.loginRedirectUri == "/api/v1/auth/providers/oidc/callback"
+	and .optionalSso == true
 	and .addons.localstorage.sqlite.paths == ["/app/data/database/orbit.sqlite"]
 	and .upstreamLicense.name == "Apache-2.0"
 	and .upstreamLicense.url == "https://github.com/coollabsio/orbit/blob/\($c)/LICENSE"
