@@ -19,7 +19,7 @@ chat in one workspace, with an MCP server for AI clients.
 |---|---|
 | Upstream | Orbit release named by `upstreamVersion` in [CloudronManifest.json](CloudronManifest.json) (release commit: `ARG ORBIT_COMMIT` in [Dockerfile](Dockerfile)), Apache-2.0 |
 | Package | `version` in [CloudronManifest.json](CloudronManifest.json); changes in [CHANGELOG](CHANGELOG), MIT |
-| Status | Testing release. Orbit 0.2.1 was checked on one Cloudron 10.1.6 server; later versions have not been, and the 0.3.0 to 0.4.1 upgrade was checked locally ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
+| Status | Testing release. Orbit 0.2.1 was checked on one Cloudron 10.1.6 server, and Cloudron single sign-on with Orbit 0.4.1 on the same server; the 0.3.0 to 0.4.1 upgrade was checked locally ([results](docs/PACKAGING-NOTES.md#cloudron-verification)) |
 | Requires | Cloudron 10.0.0 or later, x86-64 |
 | Install | `cloudron install --versions-url https://raw.githubusercontent.com/marcusquinn/cloudron-orbit-app/main/CloudronVersions.json` |
 
@@ -56,10 +56,24 @@ default gateway (Cloudron's proxy). Orbit's hosted-service mode
 3. Invite people from **Settings → Members**: send the invitation by email or
    use **Generate link**.
 
-Google and GitHub sign-in are optional, in **Admin → Sign-in providers**.
-Orbit 0.4 added OpenID Connect sign-in, but the package does not configure it
-yet, so there is no Cloudron single sign-on
-([notes](docs/PACKAGING-NOTES.md#sign-in)).
+Cloudron single sign-on is set up through the `oidc` addon when the app is
+installed with Cloudron user management (the default; it can be turned off at
+install). Cloudron fixes this choice at install, so an installation from
+package 0.1.2 or earlier keeps password and passkey sign-in after the update
+and gets no SSO. To add SSO there, install a new instance with it, then move
+the data with Cloudron's
+**Import backup** ([Cloudron backups](https://docs.cloudron.io/backups));
+both must run the same package version.
+
+With SSO, the sign-in page offers "Continue with" your Cloudron's name. Registration
+stays closed, so a Cloudron user needs an Orbit account with the same email
+first, usually from an invitation. The first SSO sign-in links that account
+once Orbit has confirmed its email, and asks once for its password if it has
+one. A person whose email is not confirmed (for example, invited with
+**Generate link**) signs in with their password and connects the provider in
+**Account → Security**
+([notes](docs/PACKAGING-NOTES.md#sign-in)). Google and GitHub sign-in are
+optional, in **Admin → Sign-in providers**.
 
 ## Data and backups
 

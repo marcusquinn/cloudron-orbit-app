@@ -15,8 +15,8 @@ without your data leaving the server.
   docs, and read chat.
 * **Admin:** workspaces, members, roles, API tokens, audit log, email, sign-in
   providers, rate limits, storage and workspace export.
-* **Sign-in:** email and password or passkeys; Google and GitHub sign-in are
-  optional.
+* **Sign-in:** Cloudron single sign-on, email and password or passkeys;
+  Google and GitHub sign-in are optional.
 
 Orbit's Mail section is still in development upstream and shows "Coming soon";
 it is not a working mail client yet.
@@ -30,9 +30,10 @@ it is not a working mail client yet.
   for the values to enter in Orbit's Admin → Email page.
 * **Command line:** `orbit`, `orbit-offline` and `orbit-setup-link` in the
   Terminal run the upstream operator CLI with this app's settings.
-
-Cloudron single sign-on is not available yet: Orbit added OpenID Connect
-sign-in in 0.4, but this package does not configure it.
+* **Single sign-on:** Cloudron users sign in with their Cloudron account.
+  Registration stays closed, so each person needs an Orbit account with the
+  same email first, usually from an invitation. SSO is optional at install;
+  an existing installation keeps password sign-in after updating.
 
 [Orbit](https://github.com/coollabsio/orbit) is open source under the
 Apache-2.0 licence. This package is maintained independently of the Orbit
