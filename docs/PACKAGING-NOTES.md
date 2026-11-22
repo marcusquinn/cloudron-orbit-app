@@ -317,8 +317,12 @@ Cloudron user who had an Orbit account and one who did not.
   app started healthy, `/api/v1/auth/options` listed no providers,
   `orbit config check` passed with no `ORBIT_OIDC_*` settings, and setup, an
   invitation, root password sign-in and the admin email change worked.
-- Not checked: passkey sign-in (the options still report passkeys enabled),
-  open registration, a real `cloudron update` from 0.1.2 and the
+- Final package (with `optionalSso`, default install so `sso: true`): the
+  whole flow above passed again: provider offered, stranger refused, member
+  linked after the email confirmation and password, a second SSO sign-in
+  straight in, and password sign-in for both users. The root user registered
+  a passkey (Chromium virtual authenticator), signed out and signed in with it.
+- Not checked: open registration, a real `cloudron update` from 0.1.2 and the
   **Import backup** route to SSO.
 
 The apps and the Cloudron test users were then removed.
